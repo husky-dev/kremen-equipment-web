@@ -6,7 +6,7 @@ import getUserLocale, { getUserLocales } from './locales';
 
 const log = Log('core.analytics');
 
-const enabled = ENV !== 'dev';
+const enabled = APP_ENV !== 'dev';
 
 // User
 

@@ -1,14 +1,13 @@
 import { Paper } from '@material-ui/core';
 import { Markdown } from 'components/Common';
 import React, { FC } from 'react';
-import { connect } from 'react-redux';
 import { Styles } from 'styles';
 
-import content from './content.md';
+import content from './assets/content.md';
 
 export const PrivacyScreen: FC = () => (
   <Paper style={styles.content}>
-    <Markdown>{connect}</Markdown>
+    <Markdown>{content.html}</Markdown>
   </Paper>
 );
 
