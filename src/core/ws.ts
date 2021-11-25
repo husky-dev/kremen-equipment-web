@@ -1,8 +1,8 @@
 import { isString } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Log } from 'utils';
+import { isUnknowDict, Log } from 'utils';
 
-import { EquipmentMachine, getApiRoot, isUnknowDict } from './api';
+import { EquipmentMachine, getApiRoot } from './api';
 
 const log = Log('ws');
 

@@ -1,5 +1,5 @@
-import { EquipmentMachine } from '@kremen/types';
 import axios from 'axios';
+import { EquipmentMachine } from 'core';
 import { genRandId, Log } from 'utils';
 
 import { ApiReqOpt, getErrFromResp } from './utils';
@@ -45,11 +45,11 @@ const getApi = () => {
 
   return {
     equipment: {
-      list: async (): Promise<EquipmentMachine[]> => apiReq<EquipmentMachine[]>({ path: `equipment` }),
+      list: async (): Promise<EquipmentMachine[]> => apiReq<EquipmentMachine[]>({ path: `equipment/` }),
     },
   };
 };
 
 export const api = getApi();
 
-export * from '@kremen/types';
+export * from './types';

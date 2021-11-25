@@ -1,4 +1,4 @@
-import { isUnknowDict } from '@kremen/types';
+import { isUnknowDict } from 'utils';
 
 interface HttpReqParams {
   [key: string]: undefined | string | number;

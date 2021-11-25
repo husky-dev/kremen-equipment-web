@@ -1,6 +1,5 @@
 import color from 'color';
-import { EquipmentMachineType } from 'core/api';
-import { colors, ColorsSet } from 'styles';
+import { ColorsSet } from 'styles';
 
 const colorsCache: Record<string, ColorsSet> = {};
 
@@ -13,19 +12,4 @@ export const colorSetFromColor = (val: string): ColorsSet => {
     dark: color(val).darken(0.5).toString(),
   };
   return colorsCache[val];
-};
-
-export const equipmentTypeToColor = (type?: EquipmentMachineType) => {
-  switch (type) {
-    case EquipmentMachineType.Sweeper:
-      return colors.orange;
-    case EquipmentMachineType.Spreader:
-      return colors.orange;
-    case EquipmentMachineType.GarbageTruck:
-      return colors.red;
-    case EquipmentMachineType.Tractor:
-      return colors.blue;
-    default:
-      return colors.blue;
-  }
 };
