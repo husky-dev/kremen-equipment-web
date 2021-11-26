@@ -2,4 +2,4 @@
 
 З питаннями, пропозиціями та інформацією про помилки звертатись:
 
-[jaro@smartapp.dev](mailto:jaro@smartapp.dev)
+[hello@smartapp.dev](mailto:hello@smartapp.dev)
