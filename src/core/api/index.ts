@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { EquipmentMachine } from '@core';
-import { genRandId, Log } from '@utils';
+import { genRandId, log } from '@utils';
 
 import { ApiReqOpt, getErrFromResp } from './utils';
-
-const log = Log('core.api');
 
 export const getApiRoot = () => {
   switch (APP_ENV) {
@@ -30,9 +28,7 @@ const getApi = () => {
     const id = genRandId(5);
     const msg = `req id=${id}, method=${method}, path=${path}, params=${JSON.stringify(params)}`;
     log.debug(msg);
-    log.start(msg);
     const resp = await axios({ method, url: reqUrl, params });
-    log.end(msg);
     log.debug(`${msg} done`);
     const { status } = resp;
     const data = (resp.data as unknown) as T;

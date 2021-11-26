@@ -1,15 +1,13 @@
 import React, { RefObject, FC, MutableRefObject } from 'react';
 import { GoogleMap, GoogleMapProps, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { ViewStyleProps } from '@styles';
-import { Log } from '@utils';
-
-const log = Log('components.Map');
+import { log } from '@utils';
 
 const apiKey = typeof MAPS_API_KEY !== 'undefined' && MAPS_API_KEY ? MAPS_API_KEY : null;
 if (apiKey) {
-  log.debug(`GoogleMap key: ${apiKey}`);
+  log.debug(`GoogleMap key`, { key: apiKey });
 } else {
-  log.err('Emty GoogleMap key');
+  log.err('emty GoogleMap key');
 }
 
 interface MapProps extends GoogleMapProps {

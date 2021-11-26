@@ -1,10 +1,8 @@
 import { isString } from 'lodash';
 import { useEffect, useState } from 'react';
-import { isUnknownDict, Log } from '@utils';
+import { isUnknownDict, log } from '@utils';
 
 import { EquipmentMachine, getApiRoot } from './api';
-
-const log = Log('ws');
 
 interface WsOpt {
   onOpen?: () => void;
@@ -17,7 +15,7 @@ type WsMsg = { type: 'items'; data: Partial<EquipmentMachine>[] };
 
 const parseMsg = (data: unknown): WsMsg | undefined => {
   if (!isString(data)) {
-    log.err('incoming message is not a string, data=', data);
+    log.err('incoming message is not a string', { data });
     return undefined;
   }
   try {
@@ -38,10 +36,10 @@ const parseMsg = (data: unknown): WsMsg | undefined => {
         return { type: 'items', data: (parsed.data as unknown) as Partial<EquipmentMachine>[] };
       }
     }
-    log.warn('unknown message type=', parsed.type);
+    log.warn('unknown message', { type: parsed.type });
     return undefined;
   } catch (err) {
-    log.err('parsing income msg err, data=', data);
+    log.err('parsing income msg err', { data });
     return undefined;
   }
 };
@@ -49,7 +47,7 @@ const parseMsg = (data: unknown): WsMsg | undefined => {
 export const useWebScockets = ({ onOpen, onClose, onMessage, onError }: WsOpt = {}) => {
   const getConnection = () => {
     const url = `${getApiRoot().ws}/equipment/realtime`;
-    log.info('new connection, url=', url);
+    log.info('new connection', { url });
     const cn = new WebSocket(url);
 
     cn.onopen = () => {
@@ -60,7 +58,7 @@ export const useWebScockets = ({ onOpen, onClose, onMessage, onError }: WsOpt = 
     };
 
     cn.onclose = e => {
-      log.info('on close, reason=', e.reason);
+      log.info('on close', { reason: e.reason });
       setTimeout(() => {
         log.info('reconnecting');
         setConnection(getConnection());
@@ -81,7 +79,7 @@ export const useWebScockets = ({ onOpen, onClose, onMessage, onError }: WsOpt = 
     };
 
     cn.onerror = err => {
-      log.err('on error err=', err);
+      log.err('on error', { err });
       cn.close();
       if (onError) {
         onError();

@@ -1,10 +1,8 @@
 import { getStorageParam } from '@core';
-import { isStrOrUndef, Log } from '@utils';
+import { isStrOrUndef, log } from '@utils';
 import { genId } from '@utils';
 
 import getUserLocale, { getUserLocales } from './locales';
-
-const log = Log('core.analytics');
 
 const enabled = APP_ENV !== 'dev';
 
@@ -34,7 +32,7 @@ const initUser = () => {
   log.info('analytics enabled');
   const locale = getUserLocale();
   const locales = getUserLocales();
-  log.debug('locale=', locale, ', locales=', locales);
+  log.debug('locales', { locale, locales });
 };
 
 initUser();
@@ -43,5 +41,5 @@ export const track = (event: string, params?: Record<string, string | number | b
   if (!enabled) {
     return;
   }
-  log.debug('track event=', event, ', params=', params);
+  log.debug('track event', { event, params });
 };

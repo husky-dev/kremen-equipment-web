@@ -9,9 +9,7 @@ import { useWebScockets } from '@core/ws';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
 import { fullScreen, m, Styles, ViewStyleProps } from '@styles';
-import { errToStr, isNumOrUndef, LatLng, Log } from '@utils';
-
-const log = Log('screens.MapScreen');
+import { errToStr, isNumOrUndef, LatLng, log } from '@utils';
 
 type Props = ViewStyleProps;
 
@@ -44,7 +42,7 @@ export const MapScreen: FC<Props> = ({ style }) => {
   useWebScockets({
     onMessage: msg => {
       if (msg.type === 'items') {
-        log.debug('ws items update, count=', msg.data.length);
+        log.debug('ws items update', { count: msg.data.length });
         const updatedItems = items.map(itm => {
           const update = msg.data.find(upd => upd.eid === itm.eid);
           return update ? { ...itm, ...update } : itm;
