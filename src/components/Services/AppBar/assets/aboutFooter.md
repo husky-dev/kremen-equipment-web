@@ -2,6 +2,4 @@
 
 З питаннями, пропозиціями та інформацією про помилки звертатись:
 
-[https://fb.me/snipter](https://fb.me/snipter)
-
-[websnitper@gmail.com](mailto:websnitper@gmail.com)
+[jaro@smartapp.dev](mailto:jaro@smartapp.dev)
