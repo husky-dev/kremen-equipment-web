@@ -1,4 +1,4 @@
-import { isUnknowDict } from 'utils';
+import { isUnknownDict } from 'utils';
 
 interface HttpReqParams {
   [key: string]: undefined | string | number;
@@ -21,7 +21,7 @@ export interface ApiErr {
   msg: string;
 }
 
-export const isApiRespErr = (val: unknown): val is ApiRespErr => isUnknowDict(val) && typeof val.error === 'string';
+export const isApiRespErr = (val: unknown): val is ApiRespErr => isUnknownDict(val) && typeof val.error === 'string';
 
 export const getErrFromResp = <T>(status: number, data: T): ApiErr | undefined => {
   if (status === 200) {

@@ -1,31 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Log } from 'utils';
-import { isString } from 'lodash';
+import { errToStr, isStr, Log, TypeGuard } from 'utils';
 
 const log = Log('core.configs');
 
-const keyPrefix = 'kremen:equipment';
+export const getStorageParam = <T = unknown>(key: string, guard?: TypeGuard<T>) => {
+  const fullKey = `kremen:transport:${key}`;
 
-const fkey = (key: string) => `${keyPrefix}:${key}`;
+  const get = (): T | undefined => {
+    const valStr = localStorage.getItem(fullKey);
+    if (!isStr(valStr)) {
+      return undefined;
+    }
+    try {
+      const val = JSON.parse(valStr);
+      if (guard) {
+        if (guard(val)) {
+          return val;
+        } else {
+          log.err(`wrong storage value format: ${JSON.stringify(val)}`);
+          return undefined;
+        }
+      } else {
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        return (val as unknown) as T;
+      }
+    } catch (err: unknown) {
+      log.err(`getting data err`, { err: errToStr(err) });
+      return undefined;
+    }
+  };
 
-export const getConf = <T = unknown>(key: string): T | undefined => {
-  const fullKey = fkey(key);
-  const valStr = localStorage.getItem(fullKey);
-  if (!isString(valStr)) {
-    return undefined;
-  }
-  let val;
-  try {
-    val = JSON.parse(valStr);
-  } catch (e) {
-    log.err(e);
-    return undefined;
-  }
-  return (val as unknown) as T;
-};
+  const set = (val: T) => {
+    const valStr = JSON.stringify(val);
+    localStorage.setItem(fullKey, valStr);
+  };
 
-export const setConf = <T = any>(key: string, val: T) => {
-  const fullKey = fkey(key);
-  const valStr = JSON.stringify(val);
-  localStorage.setItem(fullKey, valStr);
+  return { get, set };
 };

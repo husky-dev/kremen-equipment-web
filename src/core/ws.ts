@@ -1,6 +1,6 @@
 import { isString } from 'lodash';
 import { useEffect, useState } from 'react';
-import { isUnknowDict, Log } from 'utils';
+import { isUnknownDict, Log } from 'utils';
 
 import { EquipmentMachine, getApiRoot } from './api';
 
@@ -22,7 +22,7 @@ const parseMsg = (data: unknown): WsMsg | undefined => {
   }
   try {
     const parsed = JSON.parse(data);
-    if (!isUnknowDict(parsed)) {
+    if (!isUnknownDict(parsed)) {
       log.err('parsed message is not a directory, parsed=', parsed);
       return undefined;
     }

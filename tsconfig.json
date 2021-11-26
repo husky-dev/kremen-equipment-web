@@ -16,8 +16,6 @@
       "scenes/*": ["./src/scenes/*"],
       "screens": ["./src/screens"],
       "screens/*": ["./src/screens/*"],
-      "store": ["./src/store"],
-      "store/*": ["./src/store/*"],
       "styles": ["./src/styles"],
       "styles/*": ["./src/styles/*"],
       "utils": ["./src/utils"],

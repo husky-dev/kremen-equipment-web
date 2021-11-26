@@ -1,4 +1,5 @@
 import { reduce } from 'lodash';
+import { isBool, isErr, isNull, isNum, isStr, isUndef } from './types';
 
 export const pad = (val: number | string, max: number): string => {
   const str = val.toString();
@@ -41,3 +42,19 @@ export const monthNumberToStr = (val: number): string => {
 };
 
 export const numbersArrToStr = (arr: number[]) => reduce(arr, (memo, val) => (memo ? `${memo},${val}` : `${val}`), '');
+
+export const errToStr = (val: unknown): string => {
+  if (isErr(val)) {
+    return val.message;
+  }
+  if (isStr(val) || isNum(val)) {
+    return `${val}`;
+  }
+  if (isBool(val)) {
+    return val ? 'true' : 'false';
+  }
+  if (isNull(val) || isUndef(val)) {
+    return '';
+  }
+  return '';
+};

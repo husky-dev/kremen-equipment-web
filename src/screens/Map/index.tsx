@@ -3,16 +3,13 @@ import { ControlRoundBtn, DocTitle, View } from 'components/Common';
 import { EquipmentMarker } from 'components/Equipment';
 import { Map } from 'components/Geo';
 import { ServicesAppBar } from 'components/Services';
-import { coordinates, track } from 'core';
-import { EquipmentMachine } from 'core/api';
+import { coordinates, getStorageParam, track } from 'core';
+import { api, EquipmentMachine, isEquipmentMachineArrOrUndef } from 'core/api';
 import { useWebScockets } from 'core/ws';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
-import { useSelector, useStoreManager } from 'store';
 import { fullScreen, m, Styles, ViewStyleProps } from 'styles';
-import { LatLng, Log } from 'utils';
-
-import { getMapZoomConf, setMapZoomConf } from './utils';
+import { errToStr, isNumOrUndef, LatLng, Log } from 'utils';
 
 const log = Log('screens.MapScreen');
 
@@ -20,22 +17,40 @@ type Props = ViewStyleProps;
 
 const mapMarkerSize = 46;
 
+const zoomStorage = getStorageParam<number | undefined>('zoom', isNumOrUndef);
+const itemsStorage = getStorageParam<EquipmentMachine[] | undefined>('items', isEquipmentMachineArrOrUndef);
+
 export const MapScreen: FC<Props> = ({ style }) => {
-  const manager = useStoreManager();
-  const items = useSelector(s => s.equipment.items);
+  const [items, setItems] = useState<EquipmentMachine[]>(itemsStorage.get() || []);
 
   const [selectedItem, setSelectedItem] = useState<EquipmentMachine | undefined>(undefined);
 
   useEffect(() => {
     track('MapScreenVisit');
-    manager.updateItems();
+    const process = async () => {
+      try {
+        log.debug('updating items');
+        const items = await api.equipment.list();
+        log.debug('updating items done', { count: items.length });
+        itemsStorage.set(items);
+        setItems(items);
+      } catch (err: unknown) {
+        log.err('updating items err', { err: errToStr(err) });
+      }
+    };
+    process();
   }, []);
 
   useWebScockets({
     onMessage: msg => {
       if (msg.type === 'items') {
         log.debug('ws items update, count=', msg.data.length);
-        manager.modItems(msg.data);
+        const updatedItems = items.map(itm => {
+          const update = msg.data.find(upd => upd.eid === itm.eid);
+          return update ? { ...itm, ...update } : itm;
+        });
+        setItems(updatedItems);
+        itemsStorage.set(updatedItems);
       }
     },
   });
@@ -45,7 +60,7 @@ export const MapScreen: FC<Props> = ({ style }) => {
   const mapRef = useRef<GoogleMap>(null);
 
   const [center, setCenter] = useState<LatLng>(coordinates.kremen);
-  const [zoom, setZoom] = useState<number>(getMapZoomConf(14));
+  const [zoom, setZoom] = useState<number>(zoomStorage.get() || 14);
 
   const handleMapZoomChanged = () => {
     if (!mapRef.current) {
@@ -56,7 +71,7 @@ export const MapScreen: FC<Props> = ({ style }) => {
       return;
     }
     log.debug(`zoom changed: ${zoom}`);
-    setMapZoomConf(zoom);
+    zoomStorage.set(zoom);
   };
 
   const handleMapCenterChanged = () => {
@@ -96,7 +111,7 @@ export const MapScreen: FC<Props> = ({ style }) => {
       newVal = 22;
     }
     setZoom(newVal);
-    setMapZoomConf(newVal);
+    zoomStorage.set(newVal);
   };
 
   // Render

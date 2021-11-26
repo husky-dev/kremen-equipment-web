@@ -1,22 +1,24 @@
-import { Log } from 'utils';
+import { getStorageParam } from 'core';
+import { isStrOrUndef, Log } from 'utils';
 import { genId } from 'utils';
 
-import { getConf, setConf } from './configs';
 import getUserLocale, { getUserLocales } from './locales';
 
 const log = Log('core.analytics');
 
 const enabled = APP_ENV !== 'dev';
 
+const uidStorage = getStorageParam('uid', isStrOrUndef);
+
 // User
 
 const getUID = (): string => {
-  const storedUid = getConf<string>('uid');
+  const storedUid = uidStorage.get();
   if (storedUid) {
     return storedUid;
   }
   const newUid = genId();
-  setConf('uid', newUid);
+  uidStorage.set(newUid);
   return newUid;
 };
 

@@ -1,3 +1,6 @@
+import { isNull } from 'lodash';
+import { isArr, isStr, isUndef, isUnknownDict } from 'utils';
+
 export interface EquipmentDataSourceCar {
   name: string;
   company: string;
@@ -34,3 +37,12 @@ export interface EquipmentMachine {
   ts?: number;
   log?: EquipmentDataSourceTimeEntryData[];
 }
+
+export const isEquipmentMachine = (val: unknown): val is EquipmentMachine =>
+  isUnknownDict(val) && isStr(val.eid) && isStr(val.name);
+
+export const isEquipmentMachineArr = (val: unknown): val is EquipmentMachine[] =>
+  isArr(val) && val.reduce<boolean>((memo, itm) => isEquipmentMachine(itm), true);
+
+export const isEquipmentMachineArrOrUndef = (val: unknown): val is EquipmentMachine[] | undefined =>
+  isEquipmentMachineArr(val) || isUndef(val) || isNull(val);
