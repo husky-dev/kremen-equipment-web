@@ -4,13 +4,13 @@ import { EquipmentMarker } from 'components/Equipment';
 import { Map } from 'components/Geo';
 import { ServicesAppBar } from 'components/Services';
 import { coordinates, track } from 'core';
-import { EquipmentMachine, LatLng } from 'core/api';
+import { EquipmentMachine } from 'core/api';
 import { useWebScockets } from 'core/ws';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
 import { useSelector, useStoreManager } from 'store';
 import { fullScreen, m, Styles, ViewStyleProps } from 'styles';
-import { Log } from 'utils';
+import { LatLng, Log } from 'utils';
 
 import { getMapZoomConf, setMapZoomConf } from './utils';
 

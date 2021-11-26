@@ -41,7 +41,7 @@ const itemTypeToIcon = (type?: EquipmentMachineType): string => {
       return snowPlow;
     case 'spreader':
       return snowPlow;
-    case 'garbageTruck':
+    case 'garbage':
       return dumpTruck;
     case 'tractor':
       return tractor;

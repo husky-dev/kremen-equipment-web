@@ -1,24 +1,13 @@
-export type EquipmentMachineType = 'tractor' | 'sweeper' | 'spreader' | 'garbageTruck' | 'unknow';
-
-export interface EquipmentMachine {
-  eid: string;
+export interface EquipmentDataSourceCar {
   name: string;
   company: string;
-  type: EquipmentMachineType;
+  type: string;
+  image: string;
+  gps: string;
   comments: string;
-  color: string;
-  lat?: number;
-  lng?: number;
-  speed?: number;
-  ts?: number;
-  accV?: number;
-  satCount?: number;
-  zajig?: number;
-  acsel?: number;
-  log: DataSourceEquipmentTimeEntryData[];
 }
 
-export interface DataSourceEquipmentTimeEntryData {
+export interface EquipmentDataSourceTimeEntryData {
   ts: number;
   lat: number;
   lng: number;
@@ -29,7 +18,19 @@ export interface DataSourceEquipmentTimeEntryData {
   speed?: number;
 }
 
-export interface LatLng {
-  lat: number;
-  lng: number;
+export type EquipmentMachineType = 'tractor' | 'sweeper' | 'spreader' | 'garbage' | 'unknow';
+
+export interface EquipmentMachine {
+  eid: string;
+  name: string;
+  company: string;
+  type: EquipmentMachineType;
+  comments?: string;
+  color: string;
+  lat?: number;
+  lng?: number;
+  speed?: number;
+  acsel?: number;
+  ts?: number;
+  log?: EquipmentDataSourceTimeEntryData[];
 }
