@@ -1,4 +1,4 @@
-import { errToStr, isStr, Log, TypeGuard } from 'utils';
+import { errToStr, isStr, Log, TypeGuard } from '@utils';
 
 const log = Log('core.configs');
 

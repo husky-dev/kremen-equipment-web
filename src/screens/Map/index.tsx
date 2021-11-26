@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ControlRoundBtn, DocTitle, View } from 'components/Common';
-import { EquipmentMarker } from 'components/Equipment';
-import { Map } from 'components/Geo';
-import { ServicesAppBar } from 'components/Services';
-import { coordinates, getStorageParam, track } from 'core';
-import { api, EquipmentMachine, isEquipmentMachineArrOrUndef } from 'core/api';
-import { useWebScockets } from 'core/ws';
+import { ControlRoundBtn, DocTitle, View } from '@components/Common';
+import { EquipmentMarker } from '@components/Equipment';
+import { Map } from '@components/Geo';
+import { ServicesAppBar } from '@components/Services';
+import { coordinates, getStorageParam, track } from '@core';
+import { api, EquipmentMachine, isEquipmentMachineArrOrUndef } from '@core/api';
+import { useWebScockets } from '@core/ws';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
-import { fullScreen, m, Styles, ViewStyleProps } from 'styles';
-import { errToStr, isNumOrUndef, LatLng, Log } from 'utils';
+import { fullScreen, m, Styles, ViewStyleProps } from '@styles';
+import { errToStr, isNumOrUndef, LatLng, Log } from '@utils';
 
 const log = Log('screens.MapScreen');
 

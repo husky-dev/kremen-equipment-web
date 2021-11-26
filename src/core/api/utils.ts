@@ -1,4 +1,4 @@
-import { isUnknownDict } from 'utils';
+import { isUnknownDict } from '@utils';
 
 interface HttpReqParams {
   [key: string]: undefined | string | number;

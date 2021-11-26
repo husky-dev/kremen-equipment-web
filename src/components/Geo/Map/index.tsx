@@ -1,7 +1,7 @@
 import React, { RefObject, FC, MutableRefObject } from 'react';
 import { GoogleMap, GoogleMapProps, withGoogleMap, withScriptjs } from 'react-google-maps';
-import { ViewStyleProps } from 'styles';
-import { Log } from 'utils';
+import { ViewStyleProps } from '@styles';
+import { Log } from '@utils';
 
 const log = Log('components.Map');
 

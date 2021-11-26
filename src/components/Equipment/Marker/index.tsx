@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import { colorSetFromColor } from 'core';
-import { EquipmentMachine, EquipmentMachineType } from 'core/api';
+import { colorSetFromColor } from '@core';
+import { EquipmentMachine, EquipmentMachineType } from '@core/api';
 import React, { FC, useMemo } from 'react';
 import { Marker } from 'react-google-maps';
 

@@ -1,5 +1,5 @@
 import color from 'color';
-import { ColorsSet } from 'styles';
+import { ColorsSet } from '@styles';
 
 const colorsCache: Record<string, ColorsSet> = {};
 

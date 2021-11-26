@@ -1,7 +1,7 @@
 import { Paper } from '@material-ui/core';
-import { Markdown } from 'components/Common';
+import { Markdown } from '@components/Common';
 import React, { FC } from 'react';
-import { Styles } from 'styles';
+import { Styles } from '@styles';
 
 import content from './assets/content.md';
 

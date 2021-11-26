@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { EquipmentMachine } from 'core';
-import { genRandId, Log } from 'utils';
+import { EquipmentMachine } from '@core';
+import { genRandId, Log } from '@utils';
 
 import { ApiReqOpt, getErrFromResp } from './utils';
 

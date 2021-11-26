@@ -1,6 +1,6 @@
-import { getStorageParam } from 'core';
-import { isStrOrUndef, Log } from 'utils';
-import { genId } from 'utils';
+import { getStorageParam } from '@core';
+import { isStrOrUndef, Log } from '@utils';
+import { genId } from '@utils';
 
 import getUserLocale, { getUserLocales } from './locales';
 
