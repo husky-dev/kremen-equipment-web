@@ -1,7 +1,7 @@
 import { errToStr, isStr, log, TypeGuard } from '@utils';
 
 export const getStorageParam = <T = unknown>(key: string, guard?: TypeGuard<T>) => {
-  const fullKey = `kremen:transport:${key}`;
+  const fullKey = `kremen:equipment:${key}`;
 
   const get = (): T | undefined => {
     const valStr = localStorage.getItem(fullKey);
