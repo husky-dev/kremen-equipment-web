@@ -5,7 +5,7 @@ export interface UnknownDict {
 export const isUnknownDict = (candidate: unknown): candidate is UnknownDict =>
   typeof candidate === 'object' && candidate !== null;
 
-export const select = <K extends string | number, T extends unknown>(key: K, data: Record<K, T>) => data[key];
+export const select = <K extends string | number, T>(key: K, data: Record<K, T>) => data[key];
 
 export const isErr = (val: unknown): val is Error => val instanceof Error;
 
