@@ -31,7 +31,7 @@ const getApi = () => {
     const resp = await axios({ method, url: reqUrl, params });
     log.debug(`${msg} done`);
     const { status } = resp;
-    const data = (resp.data as unknown) as T;
+    const data = resp.data as unknown as T;
     const err = getErrFromResp(status, data);
     if (err) {
       throw err;

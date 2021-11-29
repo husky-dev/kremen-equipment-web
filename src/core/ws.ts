@@ -33,7 +33,7 @@ const parseMsg = (data: unknown): WsMsg | undefined => {
         log.err('parsed message has type "buses" but "data" field is empty');
         return undefined;
       } else {
-        return { type: 'items', data: (parsed.data as unknown) as Partial<EquipmentMachine>[] };
+        return { type: 'items', data: parsed.data as unknown as Partial<EquipmentMachine>[] };
       }
     }
     log.warn('unknown message', { type: parsed.type });
