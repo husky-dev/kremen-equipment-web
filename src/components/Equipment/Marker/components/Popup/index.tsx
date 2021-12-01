@@ -2,7 +2,7 @@ import { Text, View } from '@components/Common';
 import { EquipmentMachine } from '@core/api';
 import React, { FC } from 'react';
 import { InfoWindow } from 'react-google-maps';
-import { m, Styles, ViewStyleProps } from '@styles';
+import { ms, Styles, ViewStyleProps } from '@styles';
 
 import photoBobcat from './assets/photo-bobcat.jpg';
 import photoBorex from './assets/photo-borex.jpg';
@@ -52,7 +52,7 @@ export const EquipmentPopup: FC<Props> = ({ style, item, onClose }) => {
   const photo = itemToPhoto(item);
   return (
     <InfoWindow onCloseClick={onClose}>
-      <View style={m(styles.container, style)}>
+      <View style={ms(styles.container, style)}>
         <View row={true} justifyContent="flex-start" alignItems="center">
           <View style={styles.title}>{title}</View>
         </View>

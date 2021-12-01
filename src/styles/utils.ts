@@ -6,13 +6,13 @@ import { MergeStyleVals, Style } from './types';
  * Merge styles
  * @param {MergeStyleVals} arr - styles
  */
-export const m = (...arr: MergeStyleVals[]): Style => {
+export const ms = (...arr: MergeStyleVals[]): Style => {
   if (!arr) {
     return {};
   }
   let style: Style = {};
   each(arr, (rawItem: MergeStyleVals) => {
-    const item = isArray(rawItem) ? m(...rawItem) : rawItem;
+    const item = isArray(rawItem) ? ms(...rawItem) : rawItem;
     if (isBoolean(item)) {
       return;
     }

@@ -3,16 +3,16 @@ import ServicesIcon from '@components/Services/Icon';
 import { View } from '@components/Common';
 import { Service } from '@core/services';
 import React, { FC } from 'react';
-import { m, Styles, ViewStyleProps } from '@styles';
+import { ms, Styles, ViewStyleProps } from '@styles';
 
 interface Props extends ViewStyleProps {
   item: Service;
 }
 
 export const ServiceListItem: FC<Props> = ({ style, item }) => (
-  <ListItem style={m(styles.container, style)} button component="a" href={item.url}>
+  <ListItem style={ms(styles.container, style)} button component="a" href={item.url}>
     <ListItemIcon>
-      <View style={m(styles.iconWrap, { backgroundColor: item.color })}>
+      <View style={ms(styles.iconWrap, { backgroundColor: item.color })}>
         <ServicesIcon name={item.id} size={20} />
       </View>
     </ListItemIcon>

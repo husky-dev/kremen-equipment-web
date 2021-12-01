@@ -1,5 +1,5 @@
 import React, { FC, SyntheticEvent } from 'react';
-import { colors, m, Styles, ViewStyleProps } from '@styles';
+import { colors, ms, Styles, ViewStyleProps } from '@styles';
 
 import View from '../View';
 
@@ -16,7 +16,7 @@ export const Checkbox: FC<Props> = ({ style, checked, color, size = 20, onChange
     onChange(checked ? false : true);
   };
   const styles = getStyles(color);
-  const cstyle = m({ width: size, height: size }, styles.container, style);
+  const cstyle = ms({ width: size, height: size }, styles.container, style);
   return (
     <View style={cstyle} row={true} justifyContent="center" alignItems="center" onClick={onClick}>
       {checked && <span style={styles.sqr} />}

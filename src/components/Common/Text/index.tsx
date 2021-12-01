@@ -1,6 +1,6 @@
 import { isArray, isNumber } from 'lodash';
 import React, { FC } from 'react';
-import { m, MergeStyleVal, px, Style } from '@styles';
+import { ms, MergeStyleVal, px, Style } from '@styles';
 
 interface Props {
   className?: string;
@@ -23,12 +23,12 @@ export const Text: FC<Props> = ({ className, style, size, block, children, color
     return { fontSize: size };
   };
 
-  const finalStyle = m(
+  const finalStyle = ms(
     block && { display: 'block ' },
     getSizeStyle(),
     color ? { color } : undefined,
     bold ? { fontWeight: 'bold' } : undefined,
-    isArray(style) ? m(...style) : style,
+    isArray(style) ? ms(...style) : style,
   );
   return (
     <span className={className} style={finalStyle}>

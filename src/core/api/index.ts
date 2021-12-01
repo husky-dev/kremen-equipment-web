@@ -49,3 +49,4 @@ const getApi = () => {
 export const api = getApi();
 
 export * from './types';
+export * from './utils';

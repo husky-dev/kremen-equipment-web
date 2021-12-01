@@ -1,5 +1,5 @@
 import React, { FC, SyntheticEvent } from 'react';
-import { colors, m, Styles, ViewStyleProps } from '@styles';
+import { colors, ms, Styles, ViewStyleProps } from '@styles';
 
 interface Props extends ViewStyleProps {
   href?: string;
@@ -16,7 +16,7 @@ export const Link: FC<Props> = ({ style, href, children, target = '__blank', onC
   };
 
   return (
-    <a style={m(styles.link, style)} href={href} target={target} onClick={handleClick}>
+    <a style={ms(styles.link, style)} href={href} target={target} onClick={handleClick}>
       {children}
     </a>
   );

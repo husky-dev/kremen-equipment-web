@@ -8,8 +8,9 @@ import { api, EquipmentMachine, isEquipmentMachineArrOrUndef } from '@core/api';
 import { useWebScockets } from '@core/ws';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
-import { fullScreen, m, Styles, ViewStyleProps } from '@styles';
+import { fullScreen, ms, Styles, ViewStyleProps } from '@styles';
 import { errToStr, isNumOrUndef, LatLng, log } from '@utils';
+import MapPanel from './components/Panel';
 
 type Props = ViewStyleProps;
 
@@ -20,6 +21,7 @@ const itemsStorage = getStorageParam<EquipmentMachine[] | undefined>('items', is
 
 export const MapScreen: FC<Props> = ({ style }) => {
   const [items, setItems] = useState<EquipmentMachine[]>(itemsStorage.get() || []);
+  const [selectedCompanies, setSelectedCompanies] = useState<string[] | undefined>();
 
   const [selectedItem, setSelectedItem] = useState<EquipmentMachine | undefined>(undefined);
 
@@ -112,6 +114,9 @@ export const MapScreen: FC<Props> = ({ style }) => {
     zoomStorage.set(newVal);
   };
 
+  const filterSelectedCompaniesFn = (itm: EquipmentMachine) =>
+    !selectedCompanies ? true : selectedCompanies.includes(itm.company);
+
   // Render
 
   const renderItemMarker = (item: EquipmentMachine) => {
@@ -145,9 +150,15 @@ export const MapScreen: FC<Props> = ({ style }) => {
   };
 
   return (
-    <View style={m(styles.container, style)}>
+    <View style={ms(styles.container, style)}>
       <DocTitle title={APP_TITLE} />
       <ServicesAppBar />
+      <MapPanel
+        style={styles.panel}
+        machines={items}
+        selectedCompanies={selectedCompanies}
+        onSelectedCompaniesChange={setSelectedCompanies}
+      />
       <Map
         mapRef={mapRef}
         style={styles.map}
@@ -160,7 +171,7 @@ export const MapScreen: FC<Props> = ({ style }) => {
         onCenterChanged={handleMapCenterChanged}
         onClick={handleMapClick}
       >
-        {items.map(renderItemMarker)}
+        {items.filter(filterSelectedCompaniesFn).map(renderItemMarker)}
       </Map>
       <View style={styles.controlsPanel}>
         <ControlRoundBtn style={styles.controlsPanelBtn} icon="plus" onClick={handleZoomInPress} />
@@ -175,8 +186,17 @@ const styles: Styles = {
     ...fullScreen,
     overflow: 'hidden',
   },
+  panel: {
+    position: 'absolute',
+    top: 14 + 60,
+    left: 14,
+    minWidth: 260,
+    zIndex: 2,
+    overflowY: 'scroll',
+  },
   map: {
     ...fullScreen,
+    zIndex: 1,
   },
   sidebar: {
     position: 'absolute',

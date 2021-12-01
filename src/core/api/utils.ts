@@ -1,4 +1,9 @@
 import { isUnknownDict } from '@utils';
+import { uniqBy, sortBy } from 'lodash';
+
+import { EquipmentMachine } from './types';
+
+// API
 
 interface HttpReqParams {
   [key: string]: undefined | string | number;
@@ -35,3 +40,16 @@ export const getErrFromResp = <T>(status: number, data: T): ApiErr | undefined =
   }
   return undefined;
 };
+
+// Machines
+
+export const machinesToCompanies = (items: EquipmentMachine[]) => {
+  const companies = uniqBy(
+    items.map(({ company, color }) => ({ name: company, color })),
+    'name',
+  );
+  return sortBy(companies, 'name');
+};
+
+export const machinesCountOfCompany = (items: EquipmentMachine[], company: string): number =>
+  items.filter(itm => itm.company === company).length;
