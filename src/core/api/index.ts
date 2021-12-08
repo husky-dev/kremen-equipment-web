@@ -41,7 +41,7 @@ const getApi = () => {
 
   return {
     equipment: {
-      list: async (): Promise<EquipmentMachine[]> => apiReq<EquipmentMachine[]>({ path: `equipment/` }),
+      list: async (): Promise<EquipmentMachine[]> => apiReq<EquipmentMachine[]>({ path: `equipment` }),
     },
   };
 };
