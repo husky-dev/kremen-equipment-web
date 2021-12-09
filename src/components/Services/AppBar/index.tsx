@@ -1,14 +1,14 @@
-import { AppBar, IconButton, Toolbar } from '@material-ui/core';
-import HelpIcon from '@material-ui/icons/HelpOutline';
 import { Markdown, View } from '@components/Common';
 import { AlertDialog } from '@components/Dialogs';
 import ServicesDropdown from '@components/Services/Dropdown';
 import ServicesIcon from '@components/Services/Icon';
+import { AppBar, IconButton, Toolbar } from '@material-ui/core';
+import HelpIcon from '@material-ui/icons/HelpOutline';
+import { colors, Styles, useTheme } from '@styles';
+import React, { FC, useState } from 'react';
+
 import aboutBodyContent from './assets/aboutBody.md';
 import aboutFooterContent from './assets/aboutFooter.md';
-import { track } from '@core/analytics';
-import React, { FC, useState } from 'react';
-import { colors, Styles, useTheme } from '@styles';
 
 export const ServicesAppBar: FC = () => {
   const [aboutVisible, setAboutVisible] = useState<boolean>(false);
@@ -16,7 +16,6 @@ export const ServicesAppBar: FC = () => {
   const theme = useTheme();
 
   const handleAboutPress = () => {
-    track('AboutBtnPress');
     setAboutVisible(true);
   };
 

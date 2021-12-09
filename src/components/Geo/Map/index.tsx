@@ -1,7 +1,7 @@
-import React, { RefObject, FC, MutableRefObject } from 'react';
-import { GoogleMap, GoogleMapProps, withGoogleMap, withScriptjs } from 'react-google-maps';
+import { log } from '@core';
 import { ViewStyleProps } from '@styles';
-import { log } from '@utils';
+import React, { FC, MutableRefObject, RefObject } from 'react';
+import { GoogleMap, GoogleMapProps, withGoogleMap, withScriptjs } from 'react-google-maps';
 
 const apiKey = typeof MAPS_API_KEY !== 'undefined' && MAPS_API_KEY ? MAPS_API_KEY : null;
 if (apiKey) {

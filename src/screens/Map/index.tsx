@@ -3,13 +3,14 @@ import { ControlRoundBtn, DocTitle, View } from '@components/Common';
 import { EquipmentMarker } from '@components/Equipment';
 import { Map } from '@components/Geo';
 import { ServicesAppBar } from '@components/Services';
-import { coordinates, getStorageParam, track } from '@core';
+import { coordinates, getStorageParam, log } from '@core';
 import { api, EquipmentMachine, isEquipmentMachineArrOrUndef } from '@core/api';
 import { useWebScockets } from '@core/ws';
+import { fullScreen, ms, Styles, ViewStyleProps } from '@styles';
+import { errToStr, isNumOrUndef, LatLng } from '@utils';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
-import { fullScreen, ms, Styles, ViewStyleProps } from '@styles';
-import { errToStr, isNumOrUndef, LatLng, log } from '@utils';
+
 import MapPanel from './components/Panel';
 
 type Props = ViewStyleProps;
@@ -26,7 +27,6 @@ export const MapScreen: FC<Props> = ({ style }) => {
   const [selectedItem, setSelectedItem] = useState<EquipmentMachine | undefined>(undefined);
 
   useEffect(() => {
-    track('MapScreenVisit');
     const process = async () => {
       try {
         log.debug('updating items');
@@ -86,7 +86,6 @@ export const MapScreen: FC<Props> = ({ style }) => {
   };
 
   const handleMapClick = () => {
-    track('MapClick');
     log.debug('map click');
   };
 
