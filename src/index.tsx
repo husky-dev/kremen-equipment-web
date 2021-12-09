@@ -2,7 +2,7 @@ import './index.css';
 
 import { initSentry } from '@core/sentry';
 import { MuiThemeProvider } from '@material-ui/core';
-import { NavPath } from '@screens';
+import { routes } from '@screens';
 import MapScreen from '@screens/Map';
 import { PrivacyScreen } from '@screens/Privacy';
 import { muiTheme } from '@styles';
@@ -16,9 +16,9 @@ const AppContainer: FC = () => (
   <MuiThemeProvider theme={muiTheme}>
     <Router>
       <Routes>
-        <Route path={NavPath.Root} element={<MapScreen />} />
-        <Route path={NavPath.Privacy} element={<PrivacyScreen />} />
-        <Route path="*" element={<Navigate replace to={NavPath.Root} />} />
+        <Route path={routes.index} element={<MapScreen />} />
+        <Route path={routes.privacy} element={<PrivacyScreen />} />
+        <Route path="*" element={<Navigate replace to={routes.index} />} />
       </Routes>
     </Router>
   </MuiThemeProvider>

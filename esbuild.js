@@ -39,7 +39,7 @@ const openUrl = url => {
 // Configs
 
 const getEnvConfigs = () => {
-  const opts = { watch: false, serve: false };
+  const opts = { watch: false, serve: false, open: false };
   const args = process.argv.slice(2, process.argv.length);
   for (const arg of args) {
     if (arg === '--watch' || arg === '-w') {
@@ -47,6 +47,9 @@ const getEnvConfigs = () => {
     }
     if (arg === '--serve') {
       opts.serve = true;
+    }
+    if (arg === '--open') {
+      opts.open = true;
     }
   }
   return opts;
@@ -194,7 +197,10 @@ const run = async () => {
 
     log.info(`start serving at http://localhost:${servePort}/`);
     serve(distPath, servePort, buildOptions);
-    openUrl(`http://localhost:${servePort}/`);
+    if (conf.open) {
+      log.info(`opening http://localhost:${servePort}/ at browser`);
+      openUrl(`http://localhost:${servePort}/`);
+    }
   } else {
     log.info('bundle js');
     await esbuild.build(buildOptions);
