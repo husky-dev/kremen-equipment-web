@@ -10,6 +10,7 @@ interface AppConifg {
   url?: string;
   sentry: {
     dsn: string;
+    project: string;
   };
 }
 
@@ -27,5 +28,6 @@ export const config: AppConifg = {
   url: APP_URL,
   sentry: {
     dsn: isStr(SENTRY_DSN) ? SENTRY_DSN : '',
+    project: isStr(SENTRY_PROJECT) ? SENTRY_PROJECT : '',
   },
 };
