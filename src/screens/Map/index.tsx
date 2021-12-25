@@ -41,16 +41,22 @@ export const MapScreen: FC<Props> = ({ style }) => {
     process();
   }, []);
 
+  const [itemsUpdate, setitemsUpdate] = useState<Partial<EquipmentMachine>[]>([]);
+
+  useEffect(() => {
+    const updatedItems = items.map(itm => {
+      const update = itemsUpdate.find(upd => upd.eid === itm.eid);
+      return update ? { ...itm, ...update } : itm;
+    });
+    setItems(updatedItems);
+    itemsStorage.set(updatedItems);
+  }, [itemsUpdate]);
+
   useWebScockets({
     onMessage: msg => {
       if (msg.type === 'items') {
         log.debug('ws items update', { count: msg.data.length });
-        const updatedItems = items.map(itm => {
-          const update = msg.data.find(upd => upd.eid === itm.eid);
-          return update ? { ...itm, ...update } : itm;
-        });
-        setItems(updatedItems);
-        itemsStorage.set(updatedItems);
+        setitemsUpdate(msg.data);
       }
     },
   });
