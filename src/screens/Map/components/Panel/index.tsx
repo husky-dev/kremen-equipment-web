@@ -1,18 +1,27 @@
 import React, { FC, ChangeEvent } from 'react';
 import { Styles, ViewStyleProps, ms, colors } from '@styles';
 import { Checkbox, FormControlLabel, FormLabel, Paper } from '@material-ui/core';
-import { EquipmentMachine } from '@core';
+import { EquipmentMachine, EquipmentMovementLogPeriod } from '@core';
 import { machinesToCompanies, machinesCountOfCompany } from '@core';
 import { uniq } from 'lodash';
-import { Text } from '@components/Common';
+import { Text, View } from '@components/Common';
 
 interface Props extends ViewStyleProps {
+  movementPeriod: EquipmentMovementLogPeriod;
   machines: EquipmentMachine[];
   selectedCompanies?: string[];
   onSelectedCompaniesChange?: (value: string[]) => void;
+  onMovementPeriodChange: (value: EquipmentMovementLogPeriod) => void;
 }
 
-export const MapPanel: FC<Props> = ({ style, machines, selectedCompanies, onSelectedCompaniesChange }) => {
+export const MapPanel: FC<Props> = ({
+  style,
+  machines,
+  movementPeriod,
+  selectedCompanies,
+  onSelectedCompaniesChange,
+  onMovementPeriodChange,
+}) => {
   const companies = machinesToCompanies(machines);
 
   const isCompanySelected = (val: string) => (!selectedCompanies ? true : !!selectedCompanies.find(itm => itm === val));
@@ -45,6 +54,31 @@ export const MapPanel: FC<Props> = ({ style, machines, selectedCompanies, onSele
           label={<span style={ms(styles.label)}>{`${itm.name} (${machinesCountOfCompany(machines, itm.name)})`}</span>}
         />
       ))}
+      <FormLabel component="legend">{`Теплова карта руху:`}</FormLabel>
+      <View row>
+        <FormControlLabel
+          control={
+            <Checkbox
+              style={ms(styles.item)}
+              checked={movementPeriod === 'hour'}
+              name={'hour'}
+              onChange={() => onMovementPeriodChange('hour')}
+            />
+          }
+          label={<span style={ms(styles.label)}>{`За годину`}</span>}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              style={ms(styles.item)}
+              checked={movementPeriod === 'day'}
+              name={'day'}
+              onChange={() => onMovementPeriodChange('day')}
+            />
+          }
+          label={<span style={ms(styles.label)}>{`За добу`}</span>}
+        />
+      </View>
       <Text style={styles.version}>{`v${APP_VERSION}`}</Text>
     </Paper>
   );

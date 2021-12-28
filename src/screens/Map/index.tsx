@@ -3,13 +3,14 @@ import { ControlRoundBtn, DocTitle, View } from '@components/Common';
 import { EquipmentMarker } from '@components/Equipment';
 import { Map } from '@components/Geo';
 import { ServicesAppBar } from '@components/Services';
-import { coordinates, getStorageParam, log } from '@core';
+import { coordinates, EquipmentLogRecord, EquipmentMovementLogPeriod, getStorageParam, log } from '@core';
 import { api, EquipmentMachine, isEquipmentMachineArrOrUndef } from '@core/api';
 import { useWebScockets } from '@core/ws';
 import { fullScreen, ms, Styles, ViewStyleProps } from '@styles';
-import { errToStr, isNumOrUndef, LatLng } from '@utils';
+import { dayMs, errToStr, hourMs, isNumOrUndef, LatLng } from '@utils';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { GoogleMap } from 'react-google-maps';
+import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 
 import MapPanel from './components/Panel';
 
@@ -25,6 +26,25 @@ export const MapScreen: FC<Props> = ({ style }) => {
   const [selectedCompanies, setSelectedCompanies] = useState<string[] | undefined>();
 
   const [selectedItem, setSelectedItem] = useState<EquipmentMachine | undefined>(undefined);
+
+  const [movementLog, setMovementLog] = useState<EquipmentLogRecord[]>([]);
+  const [movementPeriod, setMovementPeriod] = useState<EquipmentMovementLogPeriod>('hour');
+
+  useEffect(() => {
+    const process = async () => {
+      try {
+        log.debug('getting movement log');
+        const end = new Date().getTime();
+        const start = end - (movementPeriod === 'day' ? dayMs : hourMs);
+        const newMovementLog = await api.equipment.log({ start, end });
+        log.debug('getting movement log done', { count: newMovementLog.length });
+        setMovementLog(newMovementLog);
+      } catch (err: unknown) {
+        log.err('getting movement log err', { msg: errToStr(err) });
+      }
+    };
+    process();
+  }, [movementPeriod]);
 
   useEffect(() => {
     const process = async () => {
@@ -160,9 +180,11 @@ export const MapScreen: FC<Props> = ({ style }) => {
       <ServicesAppBar />
       <MapPanel
         style={styles.panel}
+        movementPeriod={movementPeriod}
         machines={items}
         selectedCompanies={selectedCompanies}
         onSelectedCompaniesChange={setSelectedCompanies}
+        onMovementPeriodChange={val => setMovementPeriod(val)}
       />
       <Map
         mapRef={mapRef}
@@ -177,6 +199,8 @@ export const MapScreen: FC<Props> = ({ style }) => {
         onClick={handleMapClick}
       >
         {items.filter(filterSelectedCompaniesFn).map(renderItemMarker)}
+
+        <HeatmapLayer data={movementLog.map(itm => new google.maps.LatLng(itm[1], itm[2]))} />
       </Map>
       <View style={styles.controlsPanel}>
         <ControlRoundBtn style={styles.controlsPanelBtn} icon="plus" onClick={handleZoomInPress} />

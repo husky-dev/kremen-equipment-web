@@ -19,6 +19,16 @@ export const getApiRoot = () => {
   }
 };
 
+interface EquipmentLogQueryOpt {
+  start: number;
+  end: number;
+  eid?: string;
+}
+
+export type EquipmentLogRecord = [string, number, number, number];
+
+export type EquipmentMovementLogPeriod = 'day' | 'hour';
+
 const getApi = () => {
   const apiRoot = getApiRoot().api;
 
@@ -42,6 +52,8 @@ const getApi = () => {
   return {
     equipment: {
       list: async (): Promise<EquipmentMachine[]> => apiReq<EquipmentMachine[]>({ path: `equipment` }),
+      log: async (opt: EquipmentLogQueryOpt) =>
+        apiReq<EquipmentLogRecord[]>({ path: 'equipment/log', params: { format: 'array', ...opt } }),
     },
   };
 };
