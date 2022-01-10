@@ -1,7 +1,8 @@
-import { EquipmentMachine, log } from '@core';
+import { log } from '@core';
 import { genRandId } from '@utils';
 import axios from 'axios';
 
+import { EquipmentLogQueryOpt, EquipmentMachine } from './types';
 import { ApiReqOpt, getErrFromResp } from './utils';
 
 export const getApiRoot = () => {
@@ -18,12 +19,6 @@ export const getApiRoot = () => {
       };
   }
 };
-
-interface EquipmentLogQueryOpt {
-  start: number;
-  end: number;
-  eid?: string;
-}
 
 export type EquipmentLogRecord = [string, number, number, number];
 

@@ -46,3 +46,13 @@ export const isEquipmentMachineArr = (val: unknown): val is EquipmentMachine[] =
 
 export const isEquipmentMachineArrOrUndef = (val: unknown): val is EquipmentMachine[] | undefined =>
   isEquipmentMachineArr(val) || isUndef(val) || isNull(val);
+
+export interface EquipmentLogQueryOpt {
+  start: number;
+  end: number;
+  eid?: string;
+}
+
+export type EquipmentLogRecord = [string, number, number, number];
+
+export type EquipmentMovementLogPeriod = 'day' | 'hour';
