@@ -1,10 +1,11 @@
-import React, { FC, ChangeEvent } from 'react';
-import { Styles, ViewStyleProps, ms, colors } from '@styles';
-import { Checkbox, FormControlLabel, FormLabel, Paper } from '@material-ui/core';
-import { EquipmentMachine, EquipmentMovementLogPeriod } from '@core';
-import { machinesToCompanies, machinesCountOfCompany } from '@core';
-import { uniq } from 'lodash';
 import { Text, View } from '@components/Common';
+import { EquipmentMachine, EquipmentMovementLogPeriod } from '@core';
+import { Checkbox, FormControlLabel, FormLabel, Paper } from '@material-ui/core';
+import { colors, ms, Styles, ViewStyleProps } from '@styles';
+import { uniq } from 'lodash';
+import React, { ChangeEvent, FC } from 'react';
+
+import { machinesCountOfCompany, machinesToCompanies } from './utils';
 
 interface Props extends ViewStyleProps {
   movementPeriod: EquipmentMovementLogPeriod;

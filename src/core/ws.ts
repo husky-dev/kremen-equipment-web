@@ -3,7 +3,8 @@ import { isUnknownDict } from '@utils';
 import { isString } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { EquipmentMachine, getApiRoot } from './api';
+import { EquipmentMachine } from './api';
+import { config } from './config';
 
 interface WsOpt {
   onOpen?: () => void;
@@ -47,7 +48,7 @@ const parseMsg = (data: unknown): WsMsg | undefined => {
 
 export const useWebScockets = ({ onOpen, onClose, onMessage, onError }: WsOpt = {}) => {
   const getConnection = () => {
-    const url = `${getApiRoot().ws}/equipment/realtime`;
+    const url = `${config.api.ws}equipment/realtime`;
     log.info('new connection', { url });
     const cn = new WebSocket(url);
 

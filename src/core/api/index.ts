@@ -1,50 +1,52 @@
-import { log } from '@core';
-import { genRandId } from '@utils';
+import { config } from '@core/config';
+import { Log } from '@core/log';
+import { isStr } from '@utils';
 import axios from 'axios';
 
-import { EquipmentLogQueryOpt, EquipmentMachine } from './types';
-import { ApiReqOpt, getErrFromResp } from './utils';
+import {
+  EquipmentLogQueryOpt,
+  EquipmentLogRecord,
+  EquipmentMachine,
+  TransportBus,
+  TransportBusesLocations,
+  TransportPrediction,
+  TransportRoute,
+} from './types';
+import { ApiError, ApiReqOpt, isApiErrorResp, isStaus200 } from './utils';
 
-export const getApiRoot = () => {
-  switch (APP_ENV) {
-    case 'loc':
-      return {
-        api: 'http://localhost:8080',
-        ws: 'ws://localhost:8080',
-      };
-    default:
-      return {
-        api: 'https://api.kremen.dev',
-        ws: 'wss://api.kremen.dev',
-      };
-  }
-};
+const log = Log('core.api');
 
-export type EquipmentLogRecord = [string, number, number, number];
+interface ApiOpt {
+  apiRoot: string;
+}
 
-export type EquipmentMovementLogPeriod = 'day' | 'hour';
-
-const getApi = () => {
-  const apiRoot = getApiRoot().api;
-
+export const getApi = ({ apiRoot }: ApiOpt) => {
   const apiReq = async <T>(opt: ApiReqOpt): Promise<T> => {
     const { path, method = 'get', params } = opt;
-    const reqUrl = `${apiRoot}/${path}`;
-    const id = genRandId(5);
-    const msg = `req id=${id}, method=${method}, path=${path}, params=${JSON.stringify(params)}`;
-    log.debug(msg);
-    const resp = await axios({ method, url: reqUrl, params });
-    log.debug(`${msg} done`);
-    const { status } = resp;
-    const data = resp.data as unknown as T;
-    const err = getErrFromResp(status, data);
-    if (err) {
-      throw err;
+    const reqUrl = `${apiRoot}${path}`;
+    log.debug('api req', { url: reqUrl, params });
+    const { status, statusText, data } = await axios({ method, url: reqUrl, params, validateStatus: () => true });
+    log.debug(`api req done`);
+    if (!isStaus200(status)) {
+      if (isApiErrorResp(data)) {
+        throw new ApiError(data.code, data.message);
+      } else if (isStr(data)) {
+        throw new ApiError('UNKNOWN', data);
+      } else {
+        throw new Error(`${status}: ${statusText}`);
+      }
     }
-    return data;
+    return data as unknown as T;
   };
 
   return {
+    transport: {
+      routes: async (): Promise<TransportRoute[]> => apiReq<TransportRoute[]>({ path: `transport/routes` }),
+      buses: async (): Promise<TransportBus[]> => apiReq<TransportBus[]>({ path: `transport/buses` }),
+      busesLocations: async () => apiReq<TransportBusesLocations>({ path: `transport/buses/locations` }),
+      stationPrediction: async (sid: number): Promise<TransportPrediction[]> =>
+        apiReq<TransportPrediction[]>({ path: `transport/stations/${sid}/prediction` }),
+    },
     equipment: {
       list: async (): Promise<EquipmentMachine[]> => apiReq<EquipmentMachine[]>({ path: `equipment` }),
       log: async (opt: EquipmentLogQueryOpt) =>
@@ -53,7 +55,6 @@ const getApi = () => {
   };
 };
 
-export const api = getApi();
-
 export * from './types';
 export * from './utils';
+export const api = getApi({ apiRoot: config.api.url });
