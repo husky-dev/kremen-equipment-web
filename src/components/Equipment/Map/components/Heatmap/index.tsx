@@ -5,10 +5,10 @@ interface Props {
   data: [number, number][];
 }
 
-export const MovementHeatmap: FC<Props> = ({ data }) => {
+export const EquipmentHeatmap: FC<Props> = ({ data }) => {
   const latLngArr = useMemo(() => data.map(itm => new google.maps.LatLng(itm[0], itm[1])), [data]);
   return <HeatmapLayer data={latLngArr} />;
 };
 
-export type MovementHeatmapProps = Props;
-export default MovementHeatmap;
+export type EquipmentHeatmapProps = Props;
+export default EquipmentHeatmap;

@@ -6,3 +6,4 @@ export * from './Link';
 export * from './Markdown';
 export * from './Text';
 export * from './View';
+export { default as CommonMap } from './Map';

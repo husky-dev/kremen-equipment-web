@@ -1,8 +1,12 @@
-import { log } from '@core';
 import { errToStr, isStr, TypeGuard } from '@utils';
+import { Log } from '../log';
+
+const log = Log('core.storage');
+
+const version = 1;
 
 export const getStorageParam = <T = unknown>(key: string, guard?: TypeGuard<T>) => {
-  const fullKey = `kremen:equipment:${key}`;
+  const fullKey = `kremen:equipment:${version}:${key}`;
 
   const get = (): T | undefined => {
     const valStr = localStorage.getItem(fullKey);
@@ -15,7 +19,7 @@ export const getStorageParam = <T = unknown>(key: string, guard?: TypeGuard<T>) 
         if (guard(val)) {
           return val;
         } else {
-          log.err(`wrong storage value format: ${JSON.stringify(val)}`);
+          log.err(`wrong storage value format`, { key, val });
           return undefined;
         }
       } else {
@@ -33,5 +37,11 @@ export const getStorageParam = <T = unknown>(key: string, guard?: TypeGuard<T>) 
     localStorage.setItem(fullKey, valStr);
   };
 
-  return { get, set };
+  const remove = () => {
+    localStorage.removeItem(fullKey);
+  };
+
+  const isExist = () => (!!localStorage.getItem(fullKey) ? true : false);
+
+  return { get, set, remove, isExist };
 };

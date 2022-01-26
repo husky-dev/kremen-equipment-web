@@ -11,6 +11,11 @@ interface AppConifg {
     url: string;
     ws: string;
   };
+  google: {
+    maps: {
+      apiKey: string;
+    };
+  };
   sentry: {
     dsn: string;
     project: string;
@@ -35,5 +40,10 @@ export const config: AppConifg = {
   sentry: {
     dsn: isStr(SENTRY_DSN) ? SENTRY_DSN : '',
     project: isStr(SENTRY_PROJECT) ? SENTRY_PROJECT : '',
+  },
+  google: {
+    maps: {
+      apiKey: isStr(MAPS_API_KEY) ? MAPS_API_KEY : '',
+    },
   },
 };
