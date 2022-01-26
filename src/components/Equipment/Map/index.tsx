@@ -13,6 +13,7 @@ import EquipmentMarker from './components/Marker';
 interface Props extends ViewStyleProps {
   defCenter?: LatLng;
   defZoom?: number;
+  controls?: boolean;
   items: EquipmentMachine[];
   companies?: string[];
   heatmap?: [number, number][];
@@ -23,6 +24,7 @@ export const EquipmentMap: FC<Props> = ({
   style,
   defZoom = 14,
   defCenter,
+  controls = true,
   items,
   companies,
   heatmap,
@@ -137,10 +139,12 @@ export const EquipmentMap: FC<Props> = ({
         {items.filter(filterSelectedCompaniesFn).map(renderItemMarker)}
         {!!heatmap && <EquipmentHeatmap data={heatmap} />}
       </CommonMap>
-      <View style={styles.controlsPanel}>
-        <ControlRoundBtn style={styles.controlsPanelBtn} icon="plus" onClick={handleZoomInPress} />
-        <ControlRoundBtn style={styles.controlsPanelBtn} icon="minus" onClick={handleZoomOutPress} />
-      </View>
+      {controls && (
+        <View style={styles.controlsPanel}>
+          <ControlRoundBtn style={styles.controlsPanelBtn} icon="plus" onClick={handleZoomInPress} />
+          <ControlRoundBtn style={styles.controlsPanelBtn} icon="minus" onClick={handleZoomOutPress} />
+        </View>
+      )}
     </View>
   );
 };
