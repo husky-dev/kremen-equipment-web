@@ -11,7 +11,7 @@ RUN yarn dist
 
 FROM nginx:1.19-alpine
 
-LABEL org.opencontainers.image.source https://github.com/husky-dev/kremen-equipment-web
+LABEL org.opencontainers.image.source https://github.com/husky-dev/kremen-api
 
 COPY ./configs/nginx/default.conf /etc/nginx/conf.d/default.conf
 
