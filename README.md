@@ -14,3 +14,9 @@ It uses the same technology stack as [\#Kremen.Transport](https://github.com/hus
 - **Web:** React, TypeScript, ESBuild.
 - **Mobile:** React Native, TypeScript.
 - **API:** NodeJS, TypeScript, Docker, Docker Compose, Redis, MongoDB.
+
+## Contacts
+
+Jaroslav Khorishchenko
+
+[hello@husky-dev.me](mailto:hello@husky-dev.me)
